@@ -8,7 +8,9 @@ class PageOne extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue[900],
         title: const Text("Login App"),
+        automaticallyImplyLeading: false, //an di leading
         elevation: 0,
         actions: [
           Padding(
@@ -19,14 +21,16 @@ class PageOne extends StatelessWidget {
                 border: Border.all(color: Colors.white),
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(Icons.logout_rounded),
               ),
             ),
           )
         ],
       ),
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Colors.blue[900],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

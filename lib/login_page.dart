@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 class LoginPage extends StatefulWidget {
   static const name = '/loginpage';
@@ -9,6 +10,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final dio = Dio();
+  List<String> user = [];
+  List<String> pass = [];
+
+  @override
+  void initState() {
+    super.initState();
+    runData();
+  }
+
+  void runData() async {
+    final response = await dio.post('https://js-post-api.herokuapp.com/posts',
+        data: {"username": "levi", "password": "levi99"});
+    print(response);
+
+    final logindata = response.data as List<dynamic>;
+    user = logindata.map((e) => e['user'].toString()).toList();
+
+    pass = logindata.map((e) => e['password'].toString()).toList();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,10 +100,15 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(30),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        const Color.fromARGB(255, 19, 50, 116)),
+                    minimumSize: MaterialStateProperty.all(
+                        const Size(double.infinity, 50)),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
                   ),
                   onPressed: () {
@@ -91,13 +119,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Don't have an account?"),
+              const Text("Don't have an account?"),
               Text(
                 "   Signup",
-                style: TextStyle(color: Color.fromARGB(255, 19, 50, 116)),
+                style: TextStyle(color: Colors.blue[900]),
               ),
             ],
           ),
