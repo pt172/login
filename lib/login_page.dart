@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:login/pageone.dart';
 
 class LoginPage extends StatefulWidget {
   static const name = '/loginpage';
@@ -20,8 +21,9 @@ class _LoginPageState extends State<LoginPage> {
     runData();
   }
 
-  void runData() async {
-    final response = await dio.post('https://js-post-api.herokuapp.com/posts',
+  Future<PageOne?> runData() async {
+    final response = await dio.post(
+        'https://js-post-api.herokuapp.com/api/login',
         data: {"username": "levi", "password": "levi99"});
     print(response);
 
@@ -29,7 +31,11 @@ class _LoginPageState extends State<LoginPage> {
     user = logindata.map((e) => e['user'].toString()).toList();
 
     pass = logindata.map((e) => e['password'].toString()).toList();
-    setState(() {});
+    if (response.statusCode == 200) {
+      return const PageOne();
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -112,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'pageone');
+                    runData();
                   },
                   child: const Text("Login"),
                 ),
